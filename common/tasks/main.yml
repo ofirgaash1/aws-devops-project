@@ -1,0 +1,16 @@
+---
+- name: Update package list
+  apt:
+    update_cache: yes
+
+- name: Install basic packages
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - vim
+    - net-tools
+    - curl
+    - unzip
+    - python3-pip
+

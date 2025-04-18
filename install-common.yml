@@ -1,0 +1,6 @@
+- name: Install basic packages
+  hosts: all
+  become: yes
+  roles:
+    - common
+
