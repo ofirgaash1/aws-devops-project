@@ -17,3 +17,23 @@
     owner: root
     group: root
 
+
+- name: Copy update-dns.sh to /usr/local/bin
+  copy:
+    src: update-dns.sh
+    dest: /usr/local/bin/update-dns.sh
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Ensure /etc/rc.local exists
+  copy:
+    dest: /etc/rc.local
+    content: |
+      #!/bin/bash
+      /usr/local/bin/update-dns.sh &
+      exit 0
+    owner: root
+    group: root
+    mode: '0755'
+
