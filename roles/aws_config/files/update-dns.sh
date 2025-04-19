@@ -98,5 +98,5 @@ else
   echo "No DNS update needed for $FULL_DOMAIN" >> /var/log/cloud-init-dns.log
 fi
 
-echo "===== Cloud-init DNS setup finished =====
+echo "===== Cloud-init DNS setup finished =====" >> /var/log/cloud-init-dns.log
 
