@@ -1,0 +1,12 @@
+# Credentials / Vault
+vault.yml
+*.pem
+
+# Python/Ansible stuff
+*.pyc
+__pycache__/
+*.retry
+
+# Logs
+*.log
+

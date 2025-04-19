@@ -1,0 +1,19 @@
+- name: Ensure AWS credentials for root
+  file:
+    path: "/root/.aws"
+    state: directory
+    mode: '0700'
+    owner: root
+    group: root
+
+- name: Write AWS credentials for root
+  copy:
+    dest: "/root/.aws/credentials"
+    content: |
+      [default]
+      aws_access_key_id = {{ aws_access_key_id }}
+      aws_secret_access_key = {{ aws_secret_access_key }}
+    mode: '0600'
+    owner: root
+    group: root
+

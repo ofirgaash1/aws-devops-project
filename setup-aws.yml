@@ -1,0 +1,8 @@
+- name: Configure AWS credentials using Vault
+  hosts: all
+  become: yes
+  vars_files:
+    - vault.yml
+  roles:
+    - aws_config
+
