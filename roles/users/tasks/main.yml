@@ -16,6 +16,13 @@
     validate: 'visudo -cf %s'
   loop: "{{ users }}"
 
+- name: Add users to docker group
+  user:
+    name: "{{ item }}"
+    groups: docker
+    append: yes
+  loop: "{{ users }}"
+
 - name: Ensure .ssh directory exists
   file:
     path: "/home/{{ item }}/.ssh"

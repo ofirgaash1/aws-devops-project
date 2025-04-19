@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  consul:
+    image: hashicorp/consul:1.16.2
+    container_name: consul
+    ports:
+      - "8500:8500"
+    command: agent -dev -client=0.0.0.0
+    networks:
+      - devops_net
+
+  vault:
+    image: hashicorp/vault:1.13.3
+    container_name: vault
+    ports:
+      - "8200:8200"
+    environment:
+      VAULT_DEV_ROOT_TOKEN_ID: root
+      VAULT_DEV_LISTEN_ADDRESS: "0.0.0.0:8200"
+    cap_add:
+      - IPC_LOCK
+    command: server -dev
+    networks:
+      - devops_net
+
+  jenkins:
+    image: jenkins/jenkins:lts
+    container_name: jenkins
+    user: root
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - devops_net
+
+networks:
+  devops_net:
+    driver: bridge
+
+volumes:
+  jenkins_home:
+

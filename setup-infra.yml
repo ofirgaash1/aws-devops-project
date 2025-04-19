@@ -1,0 +1,7 @@
+---
+- name: Setup Dockerized DevOps Infra
+  hosts: all
+  become: true
+  roles:
+    - infra_services
+
