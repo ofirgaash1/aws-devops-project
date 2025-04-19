@@ -21,7 +21,7 @@ This repo contains roles and playbooks to:
 ansible-playbook install-common.yml
 ansible-playbook setup-users.yml
 ansible-playbook setup-aws.yml --ask-vault-pass
-
+```
 ##  Security
 AWS credentials are stored in vault.yml, encrypted with Ansible Vault.
 
