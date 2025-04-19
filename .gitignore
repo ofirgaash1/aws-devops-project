@@ -9,5 +9,6 @@ __pycache__/
 
 # Logs
 *.log
-
+.*
 vault.yml
+.vault_pass.txt
