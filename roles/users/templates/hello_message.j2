@@ -1,0 +1,13 @@
+Hello {{ item }}!
+Today is {{ ansible_date_time.date }}.
+Current time is {{ ansible_date_time.hour }}:{{ ansible_date_time.minute }}.
+
+{% set hour = ansible_date_time.hour | int %}
+{% if hour < 12 %}
+Good morning!
+{% elif hour < 18 %}
+Good afternoon!
+{% else %}
+Good evening!
+{% endif %}
+

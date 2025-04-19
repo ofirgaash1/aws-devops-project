@@ -1,0 +1,6 @@
+- name: Create users and configure SSH access
+  hosts: all
+  become: yes
+  roles:
+    - users
+

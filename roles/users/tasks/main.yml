@@ -32,3 +32,12 @@
     key: "{{ lookup('file', '/home/ofir/.ssh/id_rsa.pub') }}"
   loop: "{{ users }}"
 
+- name: Generate hello message for each user
+  template:
+    src: hello_message.j2
+    dest: "/home/{{ item }}/hello.txt"
+    owner: "{{ item }}"
+    group: "{{ item }}"
+    mode: '0644'
+  loop: "{{ users }}"
+
