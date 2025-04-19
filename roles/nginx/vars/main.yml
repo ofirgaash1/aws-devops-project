@@ -1,0 +1,2 @@
+consul_url: "http://localhost:8500/v1/kv/nginx_port?raw"
+

@@ -1,0 +1,38 @@
+- name: Get nginx port from Consul
+  uri:
+    url: http://localhost:8500/v1/kv/nginx_port?raw
+    return_content: yes
+  register: consul_response
+
+- name: Set nginx_port variable
+  set_fact:
+    nginx_port: "{{ consul_response.content | default('6789') }}"
+
+- name: Install nginx
+  apt:
+    name: nginx
+    state: present
+    update_cache: true
+
+- name: Replace default nginx port
+  lineinfile:
+    path: /etc/nginx/sites-available/default
+    regexp: '^\s*listen\s+\d+ default_server;'
+    line: "        listen {{ nginx_port }} default_server;"
+    backrefs: yes
+
+- name: Replace IPv6 port
+  lineinfile:
+    path: /etc/nginx/sites-available/default
+    regexp: '^\s*listen\s+\[::\]:\d+ default_server;'
+    line: "        listen [::]:{{ nginx_port }} default_server;"
+    backrefs: yes
+
+- name: Download custom HTML using curl (workaround for get_url bug)
+  shell: curl -sSL https://www.sheldonbrown.com/web_sample1.html -o /var/www/html/index.html
+
+- name: Restart nginx
+  service:
+    name: nginx
+    state: restarted
+

@@ -1,0 +1,8 @@
+- name: Setup and configure NGINX using port from Consul
+  hosts: servers
+  become: true
+  gather_facts: true
+
+  roles:
+    - nginx
+
