@@ -16,8 +16,8 @@
     creates: /{{ base_directory }}/easy-rsa/pki/ca.crt
   when: not ca_crt.stat.exists
 
-- name: Verifying dh1024.pem exist or not
-  stat: path=/{{ base_directory }}/dh.pem
+- name: Verifying dh.pem exists
+  stat: path=/{{ base_directory }}/easy-rsa/pki/dh.pem
   register: dh_pem
 
 - name: Creating Diffie Hellman certificate
