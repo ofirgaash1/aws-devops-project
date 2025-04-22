@@ -1,0 +1,16 @@
+---
+- name: Downloading easy rsa using curl (workaround for urllib3 issue)
+  shell: curl -sSL https://github.com/OpenVPN/easy-rsa/releases/download/v3.0.4/EasyRSA-3.0.4.tgz -o /tmp/EasyRSA-3.0.4.tgz
+
+- name: Unarchiving easy-rsa
+  unarchive:
+    src: /tmp/{{ easy_rsa_pkg }}.tgz
+    dest: /tmp
+    creates: /tmp/{{ easy_rsa_pkg }}
+    remote_src: true
+
+- name: Copying rsa files to the working directory
+  command: cp -r /tmp/{{ easy_rsa_pkg }} /{{ base_directory }}/easy-rsa
+  args:
+    creates: /{{ base_directory }}/easy-rsa
+...

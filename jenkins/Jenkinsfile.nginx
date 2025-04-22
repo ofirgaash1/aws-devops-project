@@ -1,0 +1,51 @@
+pipeline {
+  agent any
+
+  parameters {
+    string(name: 'NGINX_PORT', defaultValue: '6789', description: 'Port for NGINX')
+  }
+
+  environment {
+    VAULT_PASS = credentials('VAULT_PASS')
+  }
+
+  stages {
+    stage('Inject port into Consul') {
+      steps {
+        sh '''
+        curl --request PUT \
+          --data "$NGINX_PORT" \
+          http://consul:8500/v1/kv/nginx_port
+        '''
+      }
+    }
+
+    stage('Decrypt SSH key') {
+      steps {
+        sh '''
+        echo "[INFO] Decrypting SSH key..."
+        ansible-vault decrypt keys/key-pair.pem \
+          --output /tmp/decrypted_key.pem \
+          --vault-password-file=<(echo "$VAULT_PASS")
+        chmod 600 /tmp/decrypted_key.pem
+        '''
+      }
+    }
+
+    stage('Run Ansible Playbooks') {
+      steps {
+        sh '''
+        ansible-playbook install-common.yml --vault-password-file=<(echo "$VAULT_PASS")
+        ansible-playbook setup-nginx.yml --vault-password-file=<(echo "$VAULT_PASS")
+        '''
+      }
+    }
+
+    stage('Cleanup') {
+      steps {
+        sh 'shred -u /tmp/decrypted_key.pem'
+      }
+    }
+  }
+}
+

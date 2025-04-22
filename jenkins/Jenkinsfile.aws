@@ -1,0 +1,37 @@
+pipeline {
+  agent any
+
+  environment {
+    VAULT_PASS = credentials('VAULT_PASS')
+  }
+
+  stages {
+    stage('Decrypt SSH key') {
+      steps {
+        sh '''
+        echo "[INFO] Decrypting SSH key..."
+        ansible-vault decrypt keys/key-pair.pem \
+          --output /tmp/decrypted_key.pem \
+          --vault-password-file=<(echo "$VAULT_PASS")
+        chmod 600 /tmp/decrypted_key.pem
+        export ANSIBLE_PRIVATE_KEY_FILE=/tmp/decrypted_key.pem
+        '''
+      }
+    }
+
+    stage('Run AWS Setup Playbook') {
+      steps {
+        sh '''
+        ansible-playbook setup-aws.yml --vault-password-file=<(echo "$VAULT_PASS")
+        '''
+      }
+    }
+
+    stage('Cleanup') {
+      steps {
+        sh 'shred -u /tmp/decrypted_key.pem'
+      }
+    }
+  }
+}
+
