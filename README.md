@@ -123,7 +123,7 @@ ansible-playbook setup-users.yml --vault-password-file=<(echo "$VAULT_PASS")
 
 # 3. Setup Docker, Jenkins, Vault & Consul (via Docker Compose)
 #    Access Jenkins: http://<SERVER_IP_OR_DOMAIN>:8080
-#    (e.g., [http://devops1.ofirgaash.click:8080](http://devops1.ofirgaash.click:8080) for the example setup)
+#    (e.g., http://devops1.ofirgaash.click:8080 for the example setup)
 ansible-playbook setup-infra.yml --vault-password-file=<(echo "$VAULT_PASS")
 
 # 4. Configure AWS CLI & Route53 dynamic DNS update script
