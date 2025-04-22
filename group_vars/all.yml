@@ -4,3 +4,5 @@ users:
   - ofir2
   - ofir3
 
+public_key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+

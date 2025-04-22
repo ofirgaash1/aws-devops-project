@@ -36,7 +36,7 @@
   authorized_key:
     user: "{{ item }}"
     state: present
-    key: "{{ lookup('file', '/home/ofir/.ssh/id_rsa.pub') }}"
+    key: "{{ public_key }}"
   loop: "{{ users }}"
 
 - name: Generate hello message for each user
@@ -47,4 +47,5 @@
     group: "{{ item }}"
     mode: '0644'
   loop: "{{ users }}"
+
 
