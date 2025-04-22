@@ -189,8 +189,8 @@ This project includes Jenkins pipelines for automation.
 
 You can actually visit my Jenkins here:
 
-[deveops1.ofirgaash.click:8080](deveops1.ofirgaash.click:8080)
- 
+[https://deveops1.ofirgaash.click:8080](https://deveops1.ofirgaash.click:8080) 
+
 For credentials to Jenkins, please ask Ofir.
 
 
